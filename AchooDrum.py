@@ -8,6 +8,9 @@ import drumhat
 import pygame
 
 from pprint import pprint
+from recording import AchooDrumRecording
+
+import sys
 
 class AchooDrum:
     #DUM_FOLDER = ""
@@ -15,6 +18,7 @@ class AchooDrum:
     #samples = None
 
     def __init__(self, source):
+        print sys.path
         DRUM_FOLDER = source
         self.ad_all_hit = 0
         self.ad_pad_histories = [0] * 8
@@ -61,6 +65,7 @@ def handle_hit(event):
         drumhat.all_on()
         pygame.time.wait(500);
         drumhat.all_off()
+
     # 5秒以上無音が続いて4番をタップしたら録音終了
     elif event.pad == 4 and time.time() - ad.hit_time >= 5:
         drumhat.all_on()
@@ -76,6 +81,8 @@ def handle_release():
 
 drumhat.on_hit(drumhat.PADS, handle_hit)
 drumhat.on_release(drumhat.PADS, handle_release)
+
+r = AchooDrumRecording()
 
 while True:
     time.sleep(1)

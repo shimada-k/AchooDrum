@@ -50,7 +50,6 @@ class AchooDrumRecording():
         self.thread.join()    #スレッドが停止するのを待つ
 
     def __del__(self):
-	print("decontructor")
         # 各種ディスクリプタをcloseしwavファイルを書き込む
         self.stream.stop_stream()
         self.stream.close()
@@ -65,8 +64,8 @@ class AchooDrumRecording():
 
 if __name__ == '__main__':
     h = AchooDrumRecording()      #スレッドの開始
-    time.sleep(1)
-    h.stop()        #スレッドの停止
-    time.sleep(1)   #メインスレッドが終わる前に止まってる！
+    #time.sleep(1)
+    #h.stop()        #スレッドの停止
+    #time.sleep(1)   #メインスレッドが終わる前に止まってる！
     print "finish"
 
