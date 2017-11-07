@@ -19,7 +19,7 @@ class AchooDrumRecording():
         self.RECORD_SECONDS = 5
         self.WAVE_OUTPUT_FILENAME = "output.wav"
 
-        self.stop_event = threading.Event() # 停止させるかのフラグ
+        self.stop = False
 
         self.p = pyaudio.PyAudio()
 
@@ -38,16 +38,19 @@ class AchooDrumRecording():
         # データを取得し配列にどんどん追加する
         print("* recording")
 
-        for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+        #for i in range(0, int(self.RATE / self.CHUNK * self.RECORD_SECONDS)):
+        while(True):
+          if self.stop :
+              print("stopping")
+              break
           data = self.stream.read(self.CHUNK)
           self.frames.append(data)
 
         print("* done recording")
 
-    def stop(self):
+    def set_stop(self):
         """スレッドを停止させる"""
-        self.stop_event.set()
-        self.thread.join()    #スレッドが停止するのを待つ
+        self.stop = True
 
     def __del__(self):
         # 各種ディスクリプタをcloseしwavファイルを書き込む

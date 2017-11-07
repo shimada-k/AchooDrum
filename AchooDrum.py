@@ -7,6 +7,8 @@ import time
 import drumhat
 import pygame
 
+import signal
+
 from pprint import pprint
 from recording import AchooDrumRecording
 
@@ -84,5 +86,12 @@ drumhat.on_release(drumhat.PADS, handle_release)
 
 r = AchooDrumRecording()
 
-while True:
+def handler(signal, frame):
+    r.set_stop()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handler)
+
+while(True):
     time.sleep(1)
+
