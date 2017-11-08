@@ -20,11 +20,7 @@ class AchooDrum:
     #samples = None
 
     def __init__(self, source):
-        print sys.path
         DRUM_FOLDER = source
-        self.ad_all_hit = 0
-        self.ad_pad_histories = [0] * 8
-        self.hit_time = time.time()
     
         BANK = os.path.join(os.path.dirname(__file__), DRUM_FOLDER)
         pygame.mixer.init(44100, -16, 1, 512)
@@ -44,28 +40,9 @@ ad = AchooDrum("drums")
 ad.start_record()
 
 def handle_hit(event):
-    ad.ad_all_hit += 1
-    ad.ad_pad_histories[event.pad - 1] += 1
-
-    # 5番padをはじめに3回連続でタップしたら録音
-    if event.pad == 5 and ad.ad_all_hit == 3 and ad.ad_pad_histories[event.pad - 1] == 3:
-        drumhat.all_on()
-        pygame.time.wait(500);
-        drumhat.all_off()
-        pygame.time.wait(500);
-        drumhat.all_on()
-        pygame.time.wait(500);
-        drumhat.all_off()
-
-    # 5秒以上無音が続いて4番をタップしたら録音終了
-    elif event.pad == 4 and time.time() - ad.hit_time >= 5:
-        drumhat.all_on()
-        pygame.time.wait(1000);
-        drumhat.all_off()
-    else:
-        ad.samples[event.channel].play(loops = 0)
-        print("You hit pad {}, playing: {}".format(event.pad, ad.files[event.channel]))
-        ad.hit_time = time.time()
+    ad.samples[event.channel].play(loops = 0)
+    print("You hit pad {}, playing: {}".format(event.pad, ad.files[event.channel]))
+    ad.hit_time = time.time()
 
 def handle_release():
     pass
@@ -75,6 +52,7 @@ drumhat.on_release(drumhat.PADS, handle_release)
 
 r = AchooDrumRecording()
 
+# シグナルハンドラ
 def handler(signal, frame):
     r.set_stop()
     sys.exit(0)
