@@ -70,6 +70,8 @@ class AchooDrumRecording():
         dbx.files_upload(f.read(), '/' + wav)
         f.close()
 
+        # TODO ローカルのwavは消す
+
     def set_stop(self):
         """スレッドを停止させる"""
         self.stop = True

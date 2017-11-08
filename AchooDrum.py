@@ -25,17 +25,6 @@ class AchooDrum:
         self.ad_all_hit = 0
         self.ad_pad_histories = [0] * 8
         self.hit_time = time.time()
-
-        print("""This example lets you play the drums with Drum HAT!
-
-            Pads are mapped like so:
-
-            7 = Rim hit, 1 = Whistle, 2 = Clash
-            6 = Hat,     8 = Clap,   3 = Cowbell
-            5 = Snare,   4 = Base
-
-            Press CTRL+C to exit!
-        """)
     
         BANK = os.path.join(os.path.dirname(__file__), DRUM_FOLDER)
         pygame.mixer.init(44100, -16, 1, 512)
